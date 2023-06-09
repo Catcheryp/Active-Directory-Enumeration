@@ -8,6 +8,14 @@
 
 ### **Add some new users (Andromeda Cepheus, Orion Starchaser, Artemis Callisto)**
 
+Powershell command to add new users
+
+```powershell
+New-ADUser -Name "Orion Starchaser" -Accountpassword (ConvertTo-SecureString -AsPlainText (Read-Host "Enter a secure password") -Force ) -Enabled $true -OtherAttributes @{'title'="Analyst";'mail'="o.starchaser@inlanefreight.local"}
+```
+
+Through GUI
+
 - Open **Active Directory Users and Computers** via Start Menu or Server Manager
 
 - Right click on **IT**, Select **New** > **User**
@@ -40,6 +48,14 @@
 
 ### **Remove a few user accounts**
 
+Powershell command to remove users
+
+```powershell
+Remove-ADUser -Identity pvalencia
+```
+
+Through GUI
+
 - Right click on the Employees OU and select **Find**
 
     ![](../imgs/Lab/8.png)
@@ -57,6 +73,19 @@
     ![](../imgs/Lab/11.png)
 
 ### **Unlock a user account**
+
+Powershell command to unlock a user account
+
+```powershell
+# Unlock account
+Unlock-ADAccount -Identity amasters 
+# Reset password
+Set-ADAccountPassword -Identity 'amasters' -Reset -NewPassword (ConvertTo-SecureString -AsPlainText "NewP@ssw0rdReset!" -Force)
+# Force user to change password at next logon
+Set-ADUser -Identity amasters -ChangePasswordAtLogon $true
+```
+
+Through GUI
 
 - Right click on the Employees OU and select **Find**
 
@@ -78,6 +107,14 @@
 
 ### **Create A New OU Under I.T.**
 
+Powershell command to create a new OU
+
+```powershell
+New-ADOrganizationalUnit -Name "Security Analysts" -Path "OU=IT,OU=HQ-NYC,OU=Employees,OU=CORP,DC=INLANEFREIGHT,DC=LOCAL"
+```
+
+Through GUI
+
 - From within the IT OU, Right click and select **New** > **Organizational Unit**
 
     ![](../imgs/Lab/15.png)
@@ -92,6 +129,14 @@
 
 ### **Creating A Security Group**
 
+Powershell command to create a new Security Group
+
+```powershell
+New-ADGroup -Name "Security Analysts" -SamAccountName analysts -GroupCategory Security -GroupScope Global -DisplayName "Security Analysts" -Path "OU=Security Analysts,OU=IT,OU=HQ-NYC,OU=Employees,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL" -Description "Members of this group are Security Analysts under the IT OU"
+```
+
+Through GUI
+
 - Right click on our new OU **Security Analysts** and select **New** > **Group**
 
     ![](../imgs/Lab/18.png)
@@ -105,6 +150,14 @@
     ![](../imgs/Lab/20.png)
 
 ### **Add Users to the Security Group**
+
+Powershell command to add users to the Security Group
+
+```powershell
+Add-ADGroupMember -Identity analysts -Members ACepheus,OStarchaser,ACallisto
+```
+
+Through GUI
 
 - Right click on the user and select **Add to a group**
 
@@ -213,6 +266,14 @@ The command will take the new GPO we created, link it to the OU Security Analyst
 ## **Task 4: Add and Remove Computers To The Domain**
 
 ### **Add a Computer to the Domain**
+
+Powershell command to add a computer to the domain
+
+```powershell
+Add-ADGroupMember -Identity analysts -Members ACepheus,OStarchaser,ACallisto
+```
+
+Through GUI
 
 - From the control panel, open up system properties for the pc. Click on Change Settings in the Computer name section.
 
